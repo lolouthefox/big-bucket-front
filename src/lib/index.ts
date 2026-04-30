@@ -29,7 +29,7 @@ export interface Manifest {
 }
 
 export async function getManifest(): Promise<Manifest> {
-	const manifestURL = 'https://jars.arcadiatech.org/manifest.json';
+	const manifestURL = '/manifest.json';
 
 	const response = await axios.get(manifestURL);
 	if (response.status != 200) throw new Error(`Response status: ${response.status}`);
