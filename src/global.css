@@ -1,0 +1,38 @@
+:root {
+	--background-color: #0d143a;
+	--on-background-color: #0c1a43;
+	--primary-color: #41febe;
+	--secondary-color: #c94fff;
+	--text-color: #ffffff;
+
+	--body-font: 'Switzer', sans-serif;
+	--heading-font: 'Clash Display', sans-serif;
+	--mono-font: 'JetBrains Mono', monospace;
+
+	color-scheme: only dark;
+	accent-color: var(--primary-color);
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--body-font);
+
+	background-color: var(--background-color);
+	color: var(--text-color);
+	height: 100dvh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--heading-font);
+	color: var(--primary-color);
+}
