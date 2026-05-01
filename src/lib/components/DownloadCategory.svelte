@@ -13,9 +13,10 @@
 		return text.charAt(0).toLocaleUpperCase() + text.slice(1);
 	}
 
+	// Automatically select the first option from the versions dropdown
 	$effect(() => {
 		let serverType = category.types[selectedServerTypeKey];
-		if (!serverType.versions[0]) selectedServerVersionKey = serverType.versions[0];
+		selectedServerVersionKey = Object.keys(serverType.versions)[0];
 	});
 </script>
 
