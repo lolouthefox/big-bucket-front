@@ -199,4 +199,8 @@
 		background-color: rgb(from var(--secondary-color) r g b / 0.5);
 		box-shadow: inset 0 0 0 4px rgb(from var(--secondary-color) r g b / 0.5);
 	}
+	select option {
+		background-color: var(--background-color);
+		color: var(--text-color);
+	}
 </style>
