@@ -13,6 +13,15 @@
 		return text.charAt(0).toLocaleUpperCase() + text.slice(1);
 	}
 
+	async function copyText(text: string) {
+		try {
+			await navigator.clipboard.writeText(text);
+			alert('Copied to clipboard.');
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	// Automatically select the first option from the versions dropdown
 	$effect(() => {
 		let serverType = category.types[selectedServerTypeKey];
@@ -22,44 +31,70 @@
 
 {#if category.enabled}
 	<div class="category">
-		<h3>{category.friendly_name}</h3>
-		<SelectorCards
-			bind:selection={selectedServerTypeKey}
-			options={Object.fromEntries(
-				Object.keys(category.types).map((key) => [key, idToDisplayName(key)])
-			)}
-		/>
+		<div class="header">
+			<h3>{category.friendly_name}</h3>
+			<SelectorCards
+				bind:selection={selectedServerTypeKey}
+				options={Object.fromEntries(
+					Object.keys(category.types).map((key) => [key, idToDisplayName(key)])
+				)}
+			/>
+		</div>
 
 		{#if selectedServerTypeKey != ''}
 			{@const serverType = category.types[selectedServerTypeKey]}
-			<label for="{uid}-version-select">Choose a version:</label>
-			<select id="{uid}-version-select" bind:value={selectedServerVersionKey}>
-				{#each Object.keys(serverType.versions) as versionKey (versionKey)}
-					<option value={versionKey}>{versionKey}</option>
-				{/each}
-			</select>
+			<div class="server-version">
+				<label for="{uid}-version-select">Choose a version:</label>
+				<select id="{uid}-version-select" bind:value={selectedServerVersionKey}>
+					{#each Object.keys(serverType.versions) as versionKey (versionKey)}
+						<option value={versionKey}>{versionKey}</option>
+					{/each}
+				</select>
+			</div>
 			{#if selectedServerTypeKey != ''}
 				{@const version = serverType.versions[selectedServerVersionKey]}
-				{#if version}
-					{#if version.url}
-						{#each version.url as downloadUrl (downloadUrl)}
-							<span>
-								Download URL: <a href={downloadUrl} rel="external"
-									>{downloadUrl}<i class="ph-fill ph-download-simple"></i></a
-								>
-							</span>
-						{/each}
-					{/if}
+				<div class="about">
+					{#if version}
+						{#if version.url}
+							{#each version.url as downloadUrl (downloadUrl)}
+								<div class="info">
+									<p>Download URL:</p>
+									<pre>{downloadUrl}</pre>
+									<div class="button-group">
+										<button
+											class="download-link"
+											onclick={() => {
+												copyText(downloadUrl);
+											}}>Copy <i class="ph-fill ph-copy"></i></button
+										>
+										<a href={downloadUrl} rel="external" class="download-link"
+											>Download <i class="ph-fill ph-download-simple"></i></a
+										>
+									</div>
+								</div>
+							{/each}
+						{/if}
 
-					<span>
-						File hash (SHA-256): <pre>{version.sha256}</pre>
-					</span>
-					{#if version.loader_version}
-						<span>
-							Loader version: <pre>{version.loader_version}</pre>
-						</span>
+						<div class="info">
+							<p>File hash (SHA-256):</p>
+							<pre>{version.sha256}</pre>
+							<div class="button-group">
+								<button
+									class="download-link"
+									onclick={() => {
+										copyText(version.sha256);
+									}}>Copy <i class="ph-fill ph-copy"></i></button
+								>
+							</div>
+						</div>
+						{#if version.loader_version}
+							<div class="info">
+								<p>Loader version:</p>
+								<pre>{version.loader_version}</pre>
+							</div>
+						{/if}
 					{/if}
-				{/if}
+				</div>
 			{/if}
 		{/if}
 	</div>
@@ -73,35 +108,70 @@
 
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 2rem;
 		width: 100%;
 	}
+	.header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
 	h3 {
-		font-size: 1.5rem;
+		font-size: 1.75rem;
 	}
-	span pre {
-		font-family: var(--mono-font);
-		font-weight: normal;
-		opacity: 0.75;
-	}
-	span {
+	.server-version {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 		font-weight: bold;
 	}
-	span a {
-		color: var(--primary-color);
-		font-weight: normal;
+	.about {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		padding: 1rem;
+		padding-top: 2rem;
+		border-top: solid 1px var(--secondary-color);
+	}
+	.info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.info p {
+		font-weight: bold;
+	}
+	.info pre {
 		font-family: var(--mono-font);
+		font-weight: normal;
 		opacity: 0.75;
-		transition: opacity 0.25s;
 	}
-	span a:hover {
+	.download-link {
+		background-color: var(--primary-color);
+		color: var(--background-color);
+		padding: 0.5rem 1rem;
+		border-radius: 9rem;
+		font-size: 1rem;
+
+		font-weight: normal;
 		opacity: 1;
+		transition: opacity 0.25s;
+		border: none;
+		text-decoration: none;
+		cursor: pointer;
 	}
-	span a:active {
-		color: var(--secondary-color);
+	.download-link:hover {
+		opacity: 0.75;
 	}
-	span a i {
+	.download-link:active {
+		outline: solid 1px var(--secondary-color);
+	}
+	.download-link i {
 		margin-left: 0.25rem;
+	}
+	.button-group {
+		display: flex;
+		gap: 0.5rem;
 	}
 	select {
 		padding: 1rem 1.5rem;

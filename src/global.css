@@ -17,11 +17,10 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	font-family: var(--body-font);
 }
 
 body {
-	font-family: var(--body-font);
-
 	background-color: var(--background-color);
 	color: var(--text-color);
 	height: 100dvh;
