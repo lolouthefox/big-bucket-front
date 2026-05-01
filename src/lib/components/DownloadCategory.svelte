@@ -59,7 +59,7 @@
 							{#each version.url as downloadUrl (downloadUrl)}
 								<div class="info">
 									<p>Download URL:</p>
-									<pre>{downloadUrl}</pre>
+									<p class="data">{downloadUrl}</p>
 									<div class="button-group">
 										<button
 											class="download-link"
@@ -77,7 +77,7 @@
 
 						<div class="info">
 							<p>File hash (SHA-256):</p>
-							<pre>{version.sha256}</pre>
+							<p class="data">{version.sha256}</p>
 							<div class="button-group">
 								<button
 									class="download-link"
@@ -90,7 +90,7 @@
 						{#if version.loader_version}
 							<div class="info">
 								<p>Loader version:</p>
-								<pre>{version.loader_version}</pre>
+								<p class="data">{version.loader_version}</p>
 							</div>
 						{/if}
 					{/if}
@@ -110,6 +110,13 @@
 		flex-direction: column;
 		gap: 2rem;
 		width: 100%;
+	}
+	@media screen and (width <= 50rem) {
+		.category {
+			border-left: none;
+			border-right: none;
+			border-radius: 0;
+		}
 	}
 	.header {
 		display: flex;
@@ -141,10 +148,14 @@
 	.info p {
 		font-weight: bold;
 	}
-	.info pre {
+	.info .data {
 		font-family: var(--mono-font);
 		font-weight: normal;
 		opacity: 0.75;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 100%;
+		text-overflow: ellipsis;
 	}
 	.download-link {
 		background-color: var(--primary-color);

@@ -27,10 +27,12 @@
 <style>
 	.cards {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 0.5rem;
 	}
 	.card {
 		padding: 0.5rem 1rem;
+		flex-wrap: wrap;
 		border-radius: 90px;
 		border: none;
 		background-color: rgb(from var(--secondary-color) r g b / 0.25);
