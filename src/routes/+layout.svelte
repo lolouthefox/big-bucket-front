@@ -11,6 +11,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>Big Bucket</title>
 </svelte:head>
 
 {@render children()}
