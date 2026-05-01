@@ -1,5 +1,5 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import '$lib/assets/fonts/switzer.css';
 	import '$lib/assets/fonts/clash-display.css';
 	import '$lib/assets/fonts/jet-brains-mono.css';
