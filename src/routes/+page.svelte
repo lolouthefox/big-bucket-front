@@ -3,6 +3,9 @@
 	import Download from '$lib/components/Download.svelte';
 	import logo from '$lib/assets/logo.png';
 	import Spinner from '$lib/components/Spinner.svelte';
+	import { page } from '$app/state';
+	const params = new URL(page.url).searchParams;
+	const manifest = params.get('manifest');
 </script>
 
 <main>
@@ -11,7 +14,7 @@
 		<h1>Big Bucket</h1>
 	</div>
 	<div class="content">
-		{#await getManifest()}
+		{#await getManifest(manifest)}
 			<Spinner />
 		{:then data}
 			<Download manifest={data} />

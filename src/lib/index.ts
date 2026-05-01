@@ -28,10 +28,8 @@ export interface Manifest {
 	mc_java_proxies: ServerCategory;
 }
 
-export async function getManifest(): Promise<Manifest> {
-	const manifestURL = '/manifest.json';
-
-	const response = await axios.get(manifestURL);
+export async function getManifest(manifestURL: string | null): Promise<Manifest> {
+	const response = await axios.get(manifestURL ?? '/manifest.json');
 	if (response.status != 200) throw new Error(`Response status: ${response.status}`);
 
 	return response.data;
